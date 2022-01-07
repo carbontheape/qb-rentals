@@ -75,4 +75,4 @@ This is a vehicle rental script for Cars, Aircrafts and Boats. This script is ma
 # Change Logs
 - 1.0 - Initial Release
 
-# Credits - [Hyper](https://github.com/itsHyper) & elfishii 
+# Credits - [itsHyper](https://github.com/itsHyper) & elfishii 
