@@ -17,7 +17,7 @@ This is a vehicle rental script for Cars, Aircrafts and Boats. This script is ma
       options = {
           {
               type = "client",
-              event = "qb-rental:openMenu",
+              event = "qb-rental:client:openMenu",
               icon = "fas fa-car",
               label = "Rent Vehicle",
               MenuType = "vehicle"
@@ -32,7 +32,7 @@ This is a vehicle rental script for Cars, Aircrafts and Boats. This script is ma
       options = {
           {
               type = "client",
-              event = "qb-rental:openMenu",
+              event = "qb-rental:client:openMenu",
               icon = "fas fa-plane",
               label = "Rent Aircraft",
               MenuType = "aircraft"
@@ -47,7 +47,7 @@ This is a vehicle rental script for Cars, Aircrafts and Boats. This script is ma
       options = {
           {
               type = "client",
-              event = "qb-rental:openMenu",
+              event = "qb-rental:client:openMenu",
               icon = "fas fa-ship",
               label = "Rent Boat",
               MenuType = "boat"

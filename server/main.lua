@@ -2,11 +2,9 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 QBCore.Functions.CreateUseableItem("rentalpapers", function(source, item, plate)
     TriggerEvent("vehiclekeys:client:SetOwner", plate)
-    print("Gave Keys")
 end)
 
-RegisterServerEvent('qb-rental:rentalpapers')
-AddEventHandler('qb-rental:rentalpapers', function(plate, model)
+RegisterServerEvent('qb-rental:server:rentalpapers', function(plate, model)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local info = {}
@@ -20,8 +18,7 @@ AddEventHandler('qb-rental:rentalpapers', function(plate, model)
 end)
 
 
-RegisterServerEvent('qb-rental:removepapers')
-AddEventHandler('qb-rental:removepapers', function(plate, model)
+RegisterServerEvent('qb-rental:server:removepapers', function(plate, model)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     TriggerClientEvent('inventory:client:ItemBox', src,  QBCore.Shared.Items["rentalpapers"], 'remove')
