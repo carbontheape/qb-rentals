@@ -1,61 +1,42 @@
 # qb-rentals
 This is a vehicle rental script for Cars, Aircrafts and Boats. This script is made for the qbcore framework and utilizes qb-target and qb-menu.
 
+# Features
+• Fully Configurable
+• Checks to see if player has correct amount of cash
+• Checks to see if rental spot it open
+• Provides rental papers for the vehicle
+• Not in use 0.00 In use 0.00-0.01
+• Ability to return all vehicles 
+• License Checks
+
 # Dependencies 
 - [qb-target](https://github.com/BerkieBb/qb-target)
 - [qb-menu](https://github.com/qbcore-framework/qb-menu)
 
 # Installation
-- Find this in qb-target/init.lua
-- Put this in "Config.TargetModels" (more reliable to always keep target models in config)
+Go to qb-core/server/player.lua (line 94)
+Replace the licenses metadata with the snippet below
 ```lua
-  -- QB Rental
-  ["VehicleRental"] = {
-      models = {
-          `a_m_y_business_03`,
-      },
-      options = {
-          {
-              type = "client",
-              event = "qb-rental:client:openMenu",
-              icon = "fas fa-car",
-              label = "Rent Vehicle",
-              MenuType = "vehicle"
-          },
-      },
-      distance = 3.0
-  },
-  ["AircraftRental"] = {
-      models = {
-          `s_m_y_airworker`,
-      },
-      options = {
-          {
-              type = "client",
-              event = "qb-rental:client:openMenu",
-              icon = "fas fa-plane",
-              label = "Rent Aircraft",
-              MenuType = "aircraft"
-          },
-      },
-      distance = 3.0
-  },
-  ["Boatrental"] = {
-      models = {
-          `mp_m_boatstaff_01`,
-      },
-      options = {
-          {
-              type = "client",
-              event = "qb-rental:client:openMenu",
-              icon = "fas fa-ship",
-              label = "Rent Boat",
-              MenuType = "boat"
-          },
-      },
-      distance = 3.0
-  },
-  ```
+PlayerData.metadata['licences'] = PlayerData.metadata['licences'] or {
+        ['driver'] = true,
+        ['business'] = false,
+        ['weapon'] = false,
+        ['pilot'] = false
+}
+```
+#Optional
+*This allows you to add the ability for police to grant and revoke pilot licenses*
+Go to qb-policejob/server/player.lua (line 124)
+Replace the old line with this
+```lua
+if args[2] == "driver" or args[2] == "weapon" or args[2] == "pilot" then
+```
+Go to qb-policejob/server/player.lua (line 148)
+Replace the old line with this
+```lua
+if args[2] == "driver" or args[2] == "weapon" or args[2] == "pilot" then
+```
  
 # Rental Papers Item
  
@@ -73,6 +54,8 @@ This is a vehicle rental script for Cars, Aircrafts and Boats. This script is ma
             $(".item-info-description").html('<p><strong>Name: </strong><span>'+ itemData.info.firstname + '</span></p><p><strong>Last Name: </strong><span>'+ itemData.info.lastname+ '</span></p><p><strong>Plate: </strong><span>'+ itemData.info.plate + '<p><strong>Model: </strong><span>'+ itemData.info.model +'</span></p>');
 ```
 # Change Logs
-- 1.0 - Initial Release
+- 1.0 - Inital release
+- 1.1 - Script optimization / Locales
+- 2.0 - Script Revamp
 
 # Credits - [itsHyper](https://github.com/itsHyper) & elfishii 
