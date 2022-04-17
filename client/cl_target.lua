@@ -6,9 +6,10 @@ CreateThread(function(data)
         options = {
             {
                 type = "client",
-                event = "qb-rental:client:openMenu",
+                event = "qb-rental:client:LicenseCheck",
                 icon = "fas fa-car",
                 label = "Rent Vehicle",
+                LicenseType = "driver",
                 MenuType = "vehicle",
             },
         },
@@ -22,9 +23,10 @@ CreateThread(function(data)
         options = {
             {
                 type = "client",
-                event = "qb-rental:client:openMenu",
+                event = "qb-rental:client:LicenseCheck",
                 icon = "fas fa-car",
                 label = "Rent Aircraft",
+                LicenseType = "pilot",
                 MenuType = "aircraft",
             },
         },

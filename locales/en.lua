@@ -7,7 +7,9 @@ local Translations = {
     error = {
         ["not_enough_space"] = "%{vehicle} is in the way!",
         ["not_enough_money"] = "You do not have enough money!",
-        ["no_vehicle"] = "No vehicle to return!"
+        ["no_vehicle"] = "No vehicle to return!",
+        ["no_driver_license"] = "You do not have a driver license!",
+        ["no_pilot_license"] = "You do not have a pilot license!"
     },
     task = {
         ["return_veh"] = "Return your rented vehicle.",

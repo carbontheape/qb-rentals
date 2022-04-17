@@ -8,13 +8,38 @@ local comma_value = function(n) -- credit http://richard.warburton.it
     return left..(num:reverse():gsub('(%d%d%d)','%1,'):reverse())..right
 end
 
+RegisterNetEvent('qb-rental:client:LicenseCheck', function(data)
+    license = data.LicenseType
+    if license == "driver" then
+        QBCore.Functions.TriggerCallback("qb-rentals:server:getDriverLicenseStatus", function(hasLicense)
+            if hasLicense  then
+                TriggerEvent('qb-rental:client:openMenu', data)
+                MenuType = "vehicle"
+            else
+                QBCore.Functions.Notify(Lang:t("error.no_driver_license"), "error", 4500)
+            end
+        end)
+    elseif license == "pilot" then
+        QBCore.Functions.TriggerCallback("qb-rentals:server:getPilotLicenseStatus", function(hasLicense)
+            if hasLicense  then
+                TriggerEvent('qb-rental:client:openMenu', data)
+                MenuType = "aircraft"
+            else
+                QBCore.Functions.Notify(Lang:t("error.no_pilot_license"), "error", 4500)
+            end
+        end)
+    end
+end)
+
 RegisterNetEvent('qb-rental:client:openMenu', function(data)
     menu = data.MenuType
+
     local vehMenu = {
         [1] = {
             header = "Rental Vehicles",
             isMenuHeader = true,
         },
+    
         [2] = {
             id = 1,
             header = "Return Vehicle ",
@@ -28,7 +53,7 @@ RegisterNetEvent('qb-rental:client:openMenu', function(data)
     if menu == "vehicle" then
         for k=1, #Config.Vehicles.land do
             local veh = QBCore.Shared.Vehicles[Config.Vehicles.land[k].model]
-            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.land[k].model:sub(1,1):upper()..Config.Vehicles.land[k].model:sub(2)
+            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.land[k].model:sub(1,1):upper()..Config.vehicles.land[k].model:sub(2)
             vehMenu[#vehMenu+1] = {
                 id = k+1,
                 header = name,
@@ -45,7 +70,7 @@ RegisterNetEvent('qb-rental:client:openMenu', function(data)
     elseif menu == "aircraft" then
         for k=1, #Config.Vehicles.air do
             local veh = QBCore.Shared.Vehicles[Config.Vehicles.air[k].model]
-            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.air[k].model:sub(1,1):upper()..Config.Vehicles.air[k].model:sub(2)
+            local name = veh and ('%s'):format(veh.name) or Config.Vehicles.air[k].model:sub(1,1):upper()..Config.Vehicles.air[k].model:sub(2)
             vehMenu[#vehMenu+1] = {
                 id = k+1,
                 header = name,
@@ -58,6 +83,7 @@ RegisterNetEvent('qb-rental:client:openMenu', function(data)
                     }
                 }
             }
+            exports['qb-menu']:openMenu(vehMenu)
         end
     elseif menu == "boat" then
         for k=1, #Config.Vehicles.sea do
@@ -161,6 +187,7 @@ RegisterNetEvent('qb-rental:client:spawncar', function(data)
                     SetVehicleDirtLevel(vehicle, 0.0)
                     exports[Config.FuelExport]:SetFuel(vehicle, 100)
                     SpawnVehicle = true
+                    print()
                 end, Config.Locations.vehicle.spawnpoint, true)
             elseif menu == "aircraft" then
                 QBCore.Functions.SpawnVehicle(model, function(vehicle)
