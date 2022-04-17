@@ -1,60 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local SpawnVehicle = false
 
--- Config Options 
-
-local blips = {
-    {title= Lang:t("info.land_veh"), colour= 50, id= 56, x= 111.0112, y= -1088.67, z= 29.302},
-    {title= Lang:t("info.air_veh"), colour= 32, id= 578, x= -1673.39, y= -3158.45, z= 13.99},
-    {title= Lang:t("info.sea_veh"), colour= 42, id= 410, x= -753.55, y= -1512.24, z= 5.02}, 
-
-}
-
-local vehicles = {
-    land = {
-        [1] = {
-            model = 'futo',
-            money = 600,
-        },
-        [2] = {
-            model = 'bison',
-            money = 800,
-        },
-        [3] = {
-            model = 'sanchez',
-            money = 750,
-        },
-    },
-    air = {
-        [1] = {
-            model = 'seasparrow',
-            money = 7500,
-        },
-        [2] = {
-            model = 'frogger2',
-            money = 9500,
-        },
-        [3] = {
-            model = 'swift',
-            money = 11000,
-        },
-    },
-    sea = {
-        [1] = {
-            model = 'seashark3',
-            money = 5000,
-        },
-        [2] = {
-            model = 'dinghy3',
-            money = 7500,
-        },
-        [3] = {
-            model = 'longfin',
-            money = 11000,
-        },
-    }
-}
 -- Vehicle Rentals
+
 local comma_value = function(n) -- credit http://richard.warburton.it
     local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
     return left..(num:reverse():gsub('(%d%d%d)','%1,'):reverse())..right
@@ -78,52 +26,52 @@ RegisterNetEvent('qb-rental:client:openMenu', function(data)
     }
     
     if menu == "vehicle" then
-        for k=1, #vehicles.land do
-            local veh = QBCore.Shared.Vehicles[vehicles.land[k].model]
-            local name = veh and ('%s %s'):format(veh.brand, veh.name) or vehicles.land[k].model:sub(1,1):upper()..vehicles.land[k].model:sub(2)
+        for k=1, #Config.Vehicles.land do
+            local veh = QBCore.Shared.Vehicles[Config.Vehicles.land[k].model]
+            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.land[k].model:sub(1,1):upper()..Config.Vehicles.land[k].model:sub(2)
             vehMenu[#vehMenu+1] = {
                 id = k+1,
                 header = name,
-                txt = ("$%s"):format(comma_value(vehicles.land[k].money)),
+                txt = ("$%s"):format(comma_value(Config.Vehicles.land[k].money)),
                 params = {
                     event = "qb-rental:client:spawncar",
                     args = {
-                        model = vehicles.land[k].model,
-                        money = vehicles.land[k].money,
+                        model = Config.Vehicles.land[k].model,
+                        money = Config.Vehicles.land[k].money,
                     }
                 }
             }
         end
     elseif menu == "aircraft" then
-        for k=1, #vehicles.air do
-            local veh = QBCore.Shared.Vehicles[vehicles.air[k].model]
-            local name = veh and ('%s %s'):format(veh.brand, veh.name) or vehicles.air[k].model:sub(1,1):upper()..vehicles.air[k].model:sub(2)
+        for k=1, #Config.Vehicles.air do
+            local veh = QBCore.Shared.Vehicles[Config.Vehicles.air[k].model]
+            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.air[k].model:sub(1,1):upper()..Config.Vehicles.air[k].model:sub(2)
             vehMenu[#vehMenu+1] = {
                 id = k+1,
                 header = name,
-                txt = ("$%s"):format(comma_value(vehicles.air[k].money)),
+                txt = ("$%s"):format(comma_value(Config.Vehicles.air[k].money)),
                 params = {
                     event = "qb-rental:client:spawncar",
                     args = {
-                        model = vehicles.air[k].model,
-                        money = vehicles.air[k].money,
+                        model = Config.Vehicles.air[k].model,
+                        money = Config.Vehicles.air[k].money,
                     }
                 }
             }
         end
     elseif menu == "boat" then
-        for k=1, #vehicles.sea do
-            local veh = QBCore.Shared.Vehicles[vehicles.sea[k].model]
-            local name = veh and ('%s %s'):format(veh.brand, veh.name) or vehicles.sea[k].model:sub(1,1):upper()..vehicles.sea[k].model:sub(2)
+        for k=1, #Config.Vehicles.sea do
+            local veh = QBCore.Shared.Vehicles[Config.Vehicles.sea[k].model]
+            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.sea[k].model:sub(1,1):upper()..Config.Vehicles.sea[k].model:sub(2)
             vehMenu[#vehMenu+1] = {
                 id = k+1,
                 header = name,
-                txt = ("$%s"):format(comma_value(vehicles.sea[k].money)),
+                txt = ("$%s"):format(comma_value(Config.Vehicles.sea[k].money)),
                 params = {
                     event = "qb-rental:client:spawncar",
                     args = {
-                        model = vehicles.sea[k].model,
-                        money = vehicles.sea[k].money,
+                        model = Config.Vehicles.sea[k].model,
+                        money = Config.Vehicles.sea[k].money,
                     }
                 }
             }
@@ -134,21 +82,21 @@ end)
 
 local CreateNPC = function()
     -- Vehicle Rentals
-    created_ped = CreatePed(5, `a_m_y_business_03` , 109.9739, -1088.61, 28.302, 345.64, false, true)
+    created_ped = CreatePed(5, Config.Locations.vehicle.pedhash, Config.Locations.vehicle.coords.x, Config.Locations.vehicle.coords.y, Config.Locations.vehicle.coords.z, Config.Locations.vehicle.coords.w, false, true)
     FreezeEntityPosition(created_ped, true)
     SetEntityInvincible(created_ped, true)
     SetBlockingOfNonTemporaryEvents(created_ped, true)
     TaskStartScenarioInPlace(created_ped, 'WORLD_HUMAN_CLIPBOARD', 0, true)
 
     -- Aircraft Rentals
-    created_ped = CreatePed(5, `s_m_y_airworker` , -1686.57, -3149.22, 12.99, 240.88, false, true)
+    created_ped = CreatePed(5, Config.Locations.aircraft.pedhash, Config.Locations.aircraft.coords.x, Config.Locations.aircraft.coords.y, Config.Locations.aircraft.coords.z, Config.Locations.aircraft.coords.w, false, true)
     FreezeEntityPosition(created_ped, true)
     SetEntityInvincible(created_ped, true)
     SetBlockingOfNonTemporaryEvents(created_ped, true)
     TaskStartScenarioInPlace(created_ped, 'WORLD_HUMAN_CLIPBOARD', 0, true)
 
     -- Boat Rentals
-    created_ped = CreatePed(5, `mp_m_boatstaff_01` , -753.5, -1512.27, 4.02, 25.61, false, true)
+    created_ped = CreatePed(5, Config.Locations.boat.pedhash, Config.Locations.boat.coords.x, Config.Locations.boat.coords.y, Config.Locations.boat.coords.z, Config.Locations.boat.coords.w, false, true)
     FreezeEntityPosition(created_ped, true)
     SetEntityInvincible(created_ped, true)
     SetBlockingOfNonTemporaryEvents(created_ped, true)
@@ -158,18 +106,18 @@ end
 local SpawnNPC = function()
     CreateThread(function()
         -- Vehicle Rentals
-        RequestModel(`a_m_y_business_03`)
-        while not HasModelLoaded(`a_m_y_business_03`) do
+        RequestModel(Config.Locations.vehicle.pedhash)
+        while not HasModelLoaded(Config.Locations.vehicle.pedhash) do
             Wait(1)
         end
         -- Aircraft Rentals
-        RequestModel(`s_m_y_airworker`)
-        while not HasModelLoaded(`s_m_y_airworker`) do
+        RequestModel(Config.Locations.aircraft.pedhash)
+        while not HasModelLoaded(Config.Locations.aircraft.pedhash) do
             Wait(1)
         end
-        -- Aircraft Rentals
-        RequestModel(`mp_m_boatstaff_01`)
-        while not HasModelLoaded(`mp_m_boatstaff_01`) do
+        -- Boat Rentals
+        RequestModel(Config.Locations.boat.pedhash)
+        while not HasModelLoaded(Config.Locations.boat.pedhash) do
             Wait(1)
         end
         CreateNPC() 
@@ -186,17 +134,17 @@ RegisterNetEvent('qb-rental:client:spawncar', function(data)
     local model = data.model
     local label = Lang:t("error.not_enough_space", {vehicle = menu:sub(1,1):upper()..menu:sub(2)})
     if menu == "vehicle" then
-        if IsAnyVehicleNearPoint(111.4223, -1081.24, 29.192, 2.0) then
+        if IsAnyVehicleNearPoint(Config.Locations.vehicle.spawnpoint.x, Config.Locations.vehicle.spawnpoint.y, Config.Locations.vehicle.spawnpoint.z, 2.0) then
             QBCore.Functions.Notify(label, "error", 4500)
             return
         end
     elseif menu == "aircraft" then
-        if IsAnyVehicleNearPoint(-1673.4, -3158.47, 13.99, 15.0) then 
+        if IsAnyVehicleNearPoint(Config.Locations.aircraft.spawnpoint.x, Config.Locations.aircraft.spawnpoint.y, Config.Locations.aircraft.spawnpoint.z, 15.0) then 
             QBCore.Functions.Notify(label, "error", 4500)
             return
         end 
     elseif menu == "boat" then
-        if IsAnyVehicleNearPoint(-794.95, -1506.27, 1.08, 10.0) then 
+        if IsAnyVehicleNearPoint(Config.Locations.boat.spawnpoint.x, Config.Locations.boat.spawnpoint.y, Config.Locations.boat.spawnpoint.z, 10.0) then 
             QBCore.Functions.Notify(label, "error", 4500)
             return
         end  
@@ -206,34 +154,34 @@ RegisterNetEvent('qb-rental:client:spawncar', function(data)
         if money then
             if menu == "vehicle" then
                 QBCore.Functions.SpawnVehicle(model, function(vehicle)
-                    SetEntityHeading(vehicle, 340.0)
+                    SetEntityHeading(vehicle, Config.Locations.vehicle.spawnpoint.w)
                     TaskWarpPedIntoVehicle(player, vehicle, -1)
                     TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(vehicle))
                     SetVehicleEngineOn(vehicle, true, true)
                     SetVehicleDirtLevel(vehicle, 0.0)
-                    exports['lj-fuel']:SetFuel(vehicle, 100)
+                    exports[Config.FuelExport]:SetFuel(vehicle, 100)
                     SpawnVehicle = true
-                end, vector4(111.4223, -1081.24, 29.192,340.0), true)
+                end, Config.Locations.vehicle.spawnpoint, true)
             elseif menu == "aircraft" then
                 QBCore.Functions.SpawnVehicle(model, function(vehicle)
-                    SetEntityHeading(vehicle, 331.49)
+                    SetEntityHeading(vehicle, Config.Locations.aircraft.spawnpoint.w)
                     TaskWarpPedIntoVehicle(player, vehicle, -1)
                     TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(vehicle))
                     SetVehicleEngineOn(vehicle, true, true)
                     SetVehicleDirtLevel(vehicle, 0.0)
-                    exports['lj-fuel']:SetFuel(vehicle, 100)
+                    exports[Config.FuelExport]:SetFuel(vehicle, 100)
                     SpawnVehicle = true
-                end, vector4(-1673.39, -3158.45, 13.99, 331.49), true)
+                end, Config.Locations.aircraft.spawnpoint, true)
             elseif menu == "boat" then
                 QBCore.Functions.SpawnVehicle(model, function(vehicle)
-                    SetEntityHeading(vehicle, 107.79)
+                    SetEntityHeading(vehicle, Config.Locations.boat.spawnpoint.w)
                     TaskWarpPedIntoVehicle(player, vehicle, -1)
                     TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(vehicle))
                     SetVehicleEngineOn(vehicle, true, true)
                     SetVehicleDirtLevel(vehicle, 0.0)
-                    exports['lj-fuel']:SetFuel(vehicle, 100)
+                    exports[Config.FuelExport]:SetFuel(vehicle, 100)
                     SpawnVehicle = true
-                end, vector4(-794.95, -1506.27, 1.08, 107.79), true)
+                end, Config.Locations.boat.spawnpoint, true)
             end 
             Wait(1000)
             local vehicle = GetVehiclePedIsIn(player, false)
@@ -263,7 +211,7 @@ RegisterNetEvent('qb-rental:client:return', function()
 end)
 
 Citizen.CreateThread(function()
-    for _, info in pairs(blips) do
+    for _, info in pairs(Config.Blips) do
     info.blip = AddBlipForCoord(info.x, info.y, info.z)
     SetBlipSprite(info.blip, info.id)
     SetBlipDisplay(info.blip, 4)
