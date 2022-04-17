@@ -27,12 +27,12 @@ PlayerData.metadata['licences'] = PlayerData.metadata['licences'] or {
 ```
 # Optional
 *This allows you to add the ability for police to grant and revoke pilot licenses*
-Go to qb-policejob/server/player.lua (line 124)
+Go to qb-policejob/server/main.lua (line 124)
 Replace the old line with this
 ```lua
 if args[2] == "driver" or args[2] == "weapon" or args[2] == "pilot" then
 ```
-Go to qb-policejob/server/player.lua (line 148)
+Go to qb-policejob/server/main.lua (line 148)
 Replace the old line with this
 ```lua
 if args[2] == "driver" or args[2] == "weapon" or args[2] == "pilot" then
