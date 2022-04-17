@@ -2,13 +2,13 @@
 This is a vehicle rental script for Cars, Aircrafts and Boats. This script is made for the qbcore framework and utilizes qb-target and qb-menu.
 
 # Features
-• Fully Configurable
-• Checks to see if player has correct amount of cash
-• Checks to see if rental spot it open
-• Provides rental papers for the vehicle
-• Not in use 0.00 In use 0.00-0.01
-• Ability to return all vehicles 
-• License Checks
+- Fully Configurable
+- Checks to see if player has correct amount of cash
+- Checks to see if rental spot it open
+- Provides rental papers for the vehicle
+- Not in use 0.00 In use 0.00-0.01
+- Ability to return all vehicles 
+- License Checks
 
 # Dependencies 
 - [qb-target](https://github.com/BerkieBb/qb-target)
