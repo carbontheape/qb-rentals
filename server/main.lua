@@ -35,27 +35,3 @@ QBCore.Functions.CreateCallback('qb-rental:server:CashCheck',function(source, cb
         cb(false)
     end
 end)
-
-QBCore.Functions.CreateCallback('qb-rentals:server:getPilotLicenseStatus', function(source, cb, licenseType)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local licenseTable = Player.PlayerData.metadata["licences"]
-
-    if licenseTable.pilot then
-        cb(true)
-    else
-        cb(false)
-    end
-end)
-
-QBCore.Functions.CreateCallback('qb-rentals:server:getDriverLicenseStatus', function(source, cb, licenseType)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local licenseTable = Player.PlayerData.metadata["licences"]
-
-    if licenseTable.driver then
-        cb(true)
-    else
-        cb(false)
-    end
-end)
