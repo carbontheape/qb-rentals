@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'Carbon#1002'
 description 'qb-rentals'
-version '1.2.0'
+version '2.0'
 
 shared_scripts {
     '@qb-core/shared/locale.lua',
