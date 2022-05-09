@@ -53,7 +53,7 @@ RegisterNetEvent('qb-rental:client:openMenu', function(data)
     if menu == "vehicle" then
         for k=1, #Config.Vehicles.land do
             local veh = QBCore.Shared.Vehicles[Config.Vehicles.land[k].model]
-            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.land[k].model:sub(1,1):upper()..Config.vehicles.land[k].model:sub(2)
+            local name = veh and ('%s %s'):format(veh.brand, veh.name) or Config.Vehicles.land[k].model:sub(1,1):upper()..Config.Vehicles.land[k].model:sub(2)
             vehMenu[#vehMenu+1] = {
                 id = k+1,
                 header = name,
